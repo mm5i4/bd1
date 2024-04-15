@@ -25,6 +25,17 @@ def conn_fixture():
 def test_abrir_conexion(conn_fixture):
     conn = pytest.dbconn
     assert conn
+    
+@pytest.mark.usefixtures("conn_fixture")
+def test_existe_el_vendedor():
+    with pytest.raises(ValueError) as ex_info:
+        main.clientes_vendedor(pytest.dbconn, -1)
+    assert str(ex_info.value) == f'No existe el vendedor {-1}'
+
+@pytest.mark.usefixtures("conn_fixture")
+def test_listar_clientes_vendor():
+    clientes = main.clientes_vendedor(pytest.dbconn, 2)
+    assert clientes[0][0] == 1  
 
 # O se puede declarar con el decorador @pytest.mark.usefixtures(<fixture>)
 @pytest.mark.usefixtures("conn_fixture")

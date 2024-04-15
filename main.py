@@ -38,6 +38,12 @@ def consulta_generica(conn : db.MySQLConnection, consulta : str) -> List[db.conn
     cursor.execute(consulta)
     return cursor.fetchall()
 
+def clientes_vendedor(conn, id_vendedor) -> List[db.connection.RowType]:
+    nv = consulta_generica(conn, f'SELECT count(id) FROM vendedores WHERE id={id_vendedor}')
+    if nv[0][0] == 0:
+        raise ValueError(f'No existe el vendedor {id_vendedor}')
+    return consulta_generica(conn, f'SELECT * FROM clientes WHERE id_vendedor={id_vendedor}')
+
 if __name__ == "__main__":
     dbconn = abrir_conexion()
 
