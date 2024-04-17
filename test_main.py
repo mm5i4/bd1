@@ -1,8 +1,4 @@
-"""
-    Test unitarios para cada función del main
 
-    Prof. Tute Ávalos
-"""
 # pylint: disable=missing-function-docstring
 import pytest
 import main
@@ -36,6 +32,8 @@ def test_existe_el_vendedor():
 def test_listar_clientes_vendor():
     clientes = main.clientes_vendedor(pytest.dbconn, 2)
     assert clientes[0][0] == 1  
+
+
 
 # O se puede declarar con el decorador @pytest.mark.usefixtures(<fixture>)
 @pytest.mark.usefixtures("conn_fixture")

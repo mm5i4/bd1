@@ -44,11 +44,20 @@ def clientes_vendedor(conn, id_vendedor) -> List[db.connection.RowType]:
         raise ValueError(f'No existe el vendedor {id_vendedor}')
     return consulta_generica(conn, f'SELECT * FROM clientes WHERE id_vendedor={id_vendedor}')
 
+#is empty
+
+def listar_vendedores(conn) -> List[db.connection.RowType]:
+    nv = consulta_generica(conn, f'SELECT nombre FROM vendedores')
+    if nv[0][0] == 0:
+        raise ValueError(f'No hay vendedores')
+    return consulta_generica(conn, f'SELECT nombre FROM vendedores')
+
 if __name__ == "__main__":
     dbconn = abrir_conexion()
 
     resultado = consulta_generica(dbconn, "SHOW TABLES")
     for row in resultado:
         print(row[0]) # <- se muestra la primera columna de las filas resultantes
-
+        
+    listar_vendedores(dbconn)
     dbconn.close()
